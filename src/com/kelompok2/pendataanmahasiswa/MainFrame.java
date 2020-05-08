@@ -9,23 +9,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Locale;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
-import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset; 
-import org.jfree.data.category.DefaultCategoryDataset; 
 import org.jfree.data.jdbc.JDBCCategoryDataset;
-import org.jfree.data.jdbc.JDBCPieDataset;
-import org.jfree.data.jdbc.JDBCXYDataset;
-import org.jfree.ui.ApplicationFrame; 
-import org.jfree.ui.RefineryUtilities; 
+
 /**
  *
  * @author wahid
@@ -124,7 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAdd)
                     .addComponent(buttonChart))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         pack();
@@ -132,7 +122,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         this.hide();
-        new CreateMahasiswa().setVisible(true);
+        new CreateMahasiswaFrame().setVisible(true);
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChartActionPerformed
@@ -148,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             dataset.executeQuery(countProdi);
             dataset.executeQuery(countProdi);
-            JFreeChart chart = ChartFactory.createBarChart3D("Grafik", "Prodi", "Jumlah Mahasiswa",dataset, PlotOrientation.VERTICAL, true, true, false);
+            JFreeChart chart = ChartFactory.createBarChart3D("Grafik Jumlah Prodi yang Diambil Mahasiswa", "Prodi", "Jumlah Mahasiswa",dataset, PlotOrientation.VERTICAL, true, true, false);
             ChartFrame frame = new ChartFrame("Frame Chart", chart);
             frame.setVisible(true);
             frame.setBounds(500, 200, 500, 500);

@@ -8,20 +8,18 @@ package com.kelompok2.pendataanmahasiswa;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author wahid
  */
-public class CreateMahasiswa extends javax.swing.JFrame {
+public class CreateMahasiswaFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form CreateMahasiswa
      */
-    public CreateMahasiswa() {
+    public CreateMahasiswaFrame() {
         initComponents();
     }
 
@@ -46,6 +44,7 @@ public class CreateMahasiswa extends javax.swing.JFrame {
         buttonFoto = new javax.swing.JButton();
         comboBoxProdi = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,12 +71,15 @@ public class CreateMahasiswa extends javax.swing.JFrame {
 
         jLabel6.setText("image");
 
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel7.setText("Tambah Mahasiswa");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(buttonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5)
@@ -92,15 +94,21 @@ public class CreateMahasiswa extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonFoto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(textFieldNama)
-                    .addComponent(comboBoxProdi, 0, 1, Short.MAX_VALUE))
-                .addGap(63, 63, 63))
+                    .addComponent(comboBoxProdi, 0, 180, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(118, 118, 118))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(textFieldNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -123,16 +131,18 @@ public class CreateMahasiswa extends javax.swing.JFrame {
                     .addComponent(comboBoxProdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addComponent(buttonAdd)
-                .addGap(26, 26, 26))
+                .addGap(50, 50, 50))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
+        // validasi jika form belum lengkap
         if(textFieldNama.getText().isEmpty() || textFieldNim.getText().isEmpty() || textFieldEmail.getText().isEmpty() || comboBoxProdi.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Form belum lengkap!");
         } else {
+            // inisialisasi variabel dan memberi nilai variabel dengan input yang dimasukan
             String nama = textFieldNama.getText();
             String email = textFieldEmail.getText();
             String nim = textFieldNim.getText();
@@ -143,9 +153,11 @@ public class CreateMahasiswa extends javax.swing.JFrame {
             } else {
                 prodi_id = 2;
             }
-
+            
+            // query untuk insert data ke database
             String sql = "INSERT INTO mahasiswa (nama,nim,email,foto,prodi_id) VALUES ('"+nama+"','"+nim+"','"+email+"','"+foto+"','"+prodi_id+"')";
             try {
+                // menjalankan query kemudian menampilkan datanya di MainFrame
                 Connection conn = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
                 conn.createStatement().executeUpdate(sql);            
                 this.hide();
@@ -175,20 +187,21 @@ public class CreateMahasiswa extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateMahasiswaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateMahasiswaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateMahasiswaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateMahasiswa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateMahasiswaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateMahasiswa().setVisible(true);
+                new CreateMahasiswaFrame().setVisible(true);
             }
         });
     }
@@ -208,6 +221,7 @@ public class CreateMahasiswa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField textFieldEmail;
     private javax.swing.JTextField textFieldNama;
     private javax.swing.JTextField textFieldNim;

@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author wahid
+ * @author wahid hidayat
  */
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -102,7 +102,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSigninActionPerformed
-        if(textFieldUsername.getText().equals("") || passwordFieldPassword.getPassword().equals("")) {
+        if(textFieldUsername.getText().equals("") || passwordFieldPassword.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Form belum lengkap!", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             try {

@@ -7,7 +7,6 @@ package com.kelompok2.pendataanmahasiswa;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -21,7 +20,7 @@ import org.jfree.data.jdbc.JDBCCategoryDataset;
 
 /**
  *
- * @author wahid
+ * @author wahid hidayat
  */
 public class MainFrame extends javax.swing.JFrame {
 
@@ -33,6 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
         String[] judul = {"Nama", "NIM", "Email", "Program Studi"};
         model = new DefaultTableModel(judul,0);
         tableMahasiswa.setModel(model);
+        showProdi();
         showTable();
     }
 
@@ -83,7 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableMahasiswa);
 
-        buttonAdd.setText("Add");
+        buttonAdd.setText("Tambah");
         buttonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonAddActionPerformed(evt);
@@ -115,7 +115,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel5.setText("Program Studi");
 
-        comboBoxProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Pilih -", "Pend. Teknik Informatika", "Teknologi Informasi" }));
+        comboBoxProdi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Pilih -" }));
+        comboBoxProdi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxProdiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,12 +134,12 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel2))
                 .addGap(68, 68, 68)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textFieldNama)
                     .addComponent(textFieldNim)
                     .addComponent(textFieldEmail)
-                    .addComponent(comboBoxProdi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(comboBoxProdi, 0, 198, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,25 +196,23 @@ public class MainFrame extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(buttonUpdate)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(buttonDelete)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(buttonChart)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(buttonReset))
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(113, 113, 113))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(269, 269, 269))))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(buttonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buttonUpdate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buttonDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buttonChart)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(buttonReset)))
+                        .addGap(113, 113, 113))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(247, 247, 247))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,18 +239,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         // validasi jika form belum lengkap
         if(textFieldNama.getText().isEmpty() || textFieldNim.getText().isEmpty() || textFieldEmail.getText().isEmpty() || comboBoxProdi.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Form belum lengkap!");
+            JOptionPane.showMessageDialog(this, "Form belum lengkap!", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             // inisialisasi variabel dan memberi nilai variabel dengan input yang dimasukan
             String nama = textFieldNama.getText();
             String email = textFieldEmail.getText();
             String nim = textFieldNim.getText();
-            int prodi_id = 0;
-            if(comboBoxProdi.getSelectedIndex() == 1) {
-                prodi_id = 1;
-            } else {
-                prodi_id = 2;
-            }
             
             // validasi isi form
             if(!nim.matches(nimRegex)) {
@@ -263,7 +260,7 @@ public class MainFrame extends javax.swing.JFrame {
                     conn.createStatement().executeUpdate(sql);
                     
                     // alert setelah sukses
-                    JOptionPane.showMessageDialog(this, "Sukses menambahkan");
+                    JOptionPane.showMessageDialog(this, "Sukses menambahkan", "INFO", JOptionPane.INFORMATION_MESSAGE);
                     // menampilkan data hasil query
                     showTable();
                     // mengkosongkan isi text field
@@ -271,6 +268,7 @@ public class MainFrame extends javax.swing.JFrame {
                 } catch(SQLException e) {
                     e.printStackTrace();
                     if(e.getErrorCode() == 1062) {
+                        // alert jika ada duplikasi data
                         JOptionPane.showMessageDialog(this, "Terdapat duplikasi data pada NIM atau Email!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }                
@@ -288,11 +286,16 @@ public class MainFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
         
+        // buat objek dataset
         JDBCCategoryDataset dataset = new JDBCCategoryDataset(conn);
         try {
+            // menjalankan query
             dataset.executeQuery(countProdi);
+            // membuat chart
             JFreeChart chart = ChartFactory.createBarChart3D("Grafik Jumlah Prodi yang Diambil Mahasiswa", "Prodi", "Jumlah Mahasiswa",dataset, PlotOrientation.VERTICAL, true, true, false);
+            // membuat frame baru dari chart yang sudah dibuat
             ChartFrame frame = new ChartFrame("Frame Chart", chart);
+            //menampilkan framenya
             frame.setVisible(true);
             frame.setBounds(500, 200, 500, 500);
         } catch(SQLException e) {
@@ -301,19 +304,15 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonChartActionPerformed
 
     private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
+        // cek apakah form sudah lengkap
         if(textFieldNama.getText().isEmpty() || textFieldEmail.getText().isEmpty() || comboBoxProdi.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Form belum lengkap!");
+            // alert jika form belum lengkap
+            JOptionPane.showMessageDialog(this, "Form belum lengkap!", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             // inisialisasi variabel dan memberi nilai variabel dengan input yang dimasukan
             String nama = textFieldNama.getText();
             String email = textFieldEmail.getText();
             String nim = textFieldNim.getText();
-            int prodi_id = 0;
-            if(comboBoxProdi.getSelectedIndex() == 1) {
-                prodi_id = 1;
-            } else {
-                prodi_id = 2;
-            }
             
             // validasi isi form
             if(!email.matches(emailRegex)) {
@@ -327,7 +326,7 @@ public class MainFrame extends javax.swing.JFrame {
                     conn.createStatement().executeUpdate(sql);
 
                     // alert jika sukses
-                    JOptionPane.showMessageDialog(this, "Sukses mengubah data");
+                    JOptionPane.showMessageDialog(this, "Sukses mengubah data", "INFO", JOptionPane.INFORMATION_MESSAGE);
                     // menampilkan table yang berisi data setelah diupdate
                     showTable();
                     // mengkosongkan isi form
@@ -335,7 +334,7 @@ public class MainFrame extends javax.swing.JFrame {
                 } catch(SQLException e) {
                     e.printStackTrace();
                     if (e.getErrorCode() == 2601) {
-                        JOptionPane.showMessageDialog(this, "Duplikasi data Email");
+                        JOptionPane.showMessageDialog(this, "Duplikasi data Email", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 }            
             }            
@@ -344,6 +343,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonUpdateActionPerformed
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        // cek apakah ada baris tabel yang di klik
+        if(tableMahasiswa.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Pilih dulu data yang ingin dihapus!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         // query untuk hapus data
         String sql = "DELETE FROM mahasiswa WHERE nim='" + textFieldNim.getText() + "'";
         try {
@@ -352,7 +356,7 @@ public class MainFrame extends javax.swing.JFrame {
             conn.createStatement().executeUpdate(sql);
             
             // alert setelah data sukses dihapus
-            JOptionPane.showMessageDialog(this, "Sukses menghapus data");
+            JOptionPane.showMessageDialog(this, "Sukses menghapus data", "INFO", JOptionPane.INFORMATION_MESSAGE);
             // memperbarui table
             showTable();
         } catch(SQLException e) {
@@ -361,19 +365,27 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
     private void buttonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetActionPerformed
+        // memanggil method reset
         reset();
     }//GEN-LAST:event_buttonResetActionPerformed
 
     private void tableMahasiswaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMahasiswaMouseClicked
+        // mendapatkan baris dari table yang di klik
         int i = tableMahasiswa.getSelectedRow();
+        // proses jika tabel di klik
         if(i > -1) {
             textFieldNama.setText(model.getValueAt(i, 0).toString());
             textFieldNim.setText(model.getValueAt(i, 1).toString());
             textFieldNim.setEditable(false);
             textFieldEmail.setText(model.getValueAt(i, 2).toString());
-            comboBoxProdi.setSelectedIndex(0);
+            comboBoxProdi.setSelectedItem(model.getValueAt(i, 3).toString());           
         }
     }//GEN-LAST:event_tableMahasiswaMouseClicked
+
+    private void comboBoxProdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxProdiActionPerformed
+        // mendapatkan id dari prodi yang dipilih
+        getProdiId();
+    }//GEN-LAST:event_comboBoxProdiActionPerformed
 
     private void showTable() {
         int rows = tableMahasiswa.getRowCount();
@@ -393,6 +405,37 @@ public class MainFrame extends javax.swing.JFrame {
         } catch(SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void showProdi() {
+        String showProdi = "SELECT * FROM prodi";
+        try {
+            conn = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+            rs = conn.createStatement().executeQuery(showProdi);
+            while(rs.next()) {
+                Object data[] = new Object[2];
+                data[0] = rs.getInt(1);
+                data[1] = rs.getString(2);
+                comboBoxProdi.addItem(data[1].toString());
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void getProdiId() {
+        String showProdi = "SELECT prodi.id FROM prodi WHERE prodi.nama='" + comboBoxProdi.getSelectedItem() + "'";
+        try {
+            conn = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
+            rs = conn.createStatement().executeQuery(showProdi);
+            while(rs.next()) {
+                Object data[] = new Object[1];
+                data[0] = rs.getInt(1);
+                prodi_id = Integer.parseInt(data[0].toString());
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }        
     }
     
     private void reset() {
@@ -441,7 +484,7 @@ public class MainFrame extends javax.swing.JFrame {
     private DefaultTableModel model;
     private Connection conn = null;
     private ResultSet rs = null;
-    private PreparedStatement ps;
+    private int prodi_id = 0;
     
     private String nimRegex = "^[0-9]*$";
     private String emailRegex = "^(.+)@(.+)$";

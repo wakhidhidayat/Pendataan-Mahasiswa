@@ -324,7 +324,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void buttonChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChartActionPerformed
         // query untuk menghitung jumlah tiap prodi
-        String countProdi = "SELECT prodi.nama,COUNT(prodi_id) AS jumlah FROM mahasiswa JOIN prodi ON mahasiswa.prodi_id=prodi.id GROUP BY prodi.nama";
+        String countProdi = "SELECT prodi.nama,COUNT(prodi_id) AS jumlah_mahasiswa FROM mahasiswa JOIN prodi ON mahasiswa.prodi_id=prodi.id GROUP BY prodi.nama";
         try {
             // koneksi ke database
             conn = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
@@ -345,7 +345,7 @@ public class MainFrame extends javax.swing.JFrame {
             ChartFrame frame = new ChartFrame("Frame Chart", chart);
             //menampilkan framenya
             frame.setVisible(true);
-            frame.setBounds(500, 200, 500, 500);
+            frame.setBounds(500, 500, 700, 600);
         } catch(SQLException e) {
             e.printStackTrace();
         }

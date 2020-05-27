@@ -14,6 +14,9 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart; 
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.jdbc.JDBCCategoryDataset;
 
@@ -325,17 +328,19 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             // koneksi ke database
             conn = DriverManager.getConnection(CONNECTION, USER, PASSWORD);
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        
-        // buat objek dataset
-        JDBCCategoryDataset dataset = new JDBCCategoryDataset(conn);
-        try {
+            
+            // buat objek dataset
+            JDBCCategoryDataset dataset = new JDBCCategoryDataset(conn);
             // menjalankan query
             dataset.executeQuery(countProdi);
             // membuat chart
             JFreeChart chart = ChartFactory.createBarChart3D("Grafik Jumlah Prodi yang Diambil Mahasiswa", "Prodi", "Jumlah Mahasiswa",dataset, PlotOrientation.VERTICAL, true, true, false);
+            
+            // mengubah interval y supaya bertipe integer
+            CategoryPlot chartPlot = chart.getCategoryPlot();
+            ValueAxis yAxis = chartPlot.getRangeAxis();
+            yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            
             // membuat frame baru dari chart yang sudah dibuat
             ChartFrame frame = new ChartFrame("Frame Chart", chart);
             //menampilkan framenya

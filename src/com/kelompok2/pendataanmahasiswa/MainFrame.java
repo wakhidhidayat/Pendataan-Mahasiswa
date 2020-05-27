@@ -29,6 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        this.setLocationRelativeTo(null);
         String[] judul = {"Nama", "NIM", "Email", "Program Studi"};
         model = new DefaultTableModel(judul,0);
         tableMahasiswa.setModel(model);
